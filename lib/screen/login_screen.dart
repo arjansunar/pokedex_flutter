@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:pokedex/auth/auth_service.dart';
 import 'package:pokedex/screen/sign_up.dart';
 import 'package:provider/provider.dart';
