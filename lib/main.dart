@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pokedex/auth/auth_service.dart';
 import 'package:pokedex/screen/app_router.dart';
-import 'package:pokedex/screen/home_screen.dart';
 import 'package:pokedex/screen/login_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -33,8 +32,8 @@ class MyApp extends StatelessWidget {
         title: 'Pokedex',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            fontFamily: GoogleFonts.poppins().fontFamily),
-        home: const AppRouter(),
+            fontFamily: GoogleFonts.roboto().fontFamily),
+        home: const AuthRouter(),
       ),
     );
   }

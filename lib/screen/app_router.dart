@@ -27,7 +27,7 @@ class _AppRouterState extends State<AppRouter> {
         currentIndex: _currentScreen,
         onTap: _updateScreen,
         elevation: 0,
-        selectedItemColor: Color.fromARGB(255, 199, 23, 23),
+        selectedItemColor:const Color.fromARGB(255, 199, 23, 23),
         selectedFontSize: 13,
         unselectedFontSize: 13,
         iconSize: 30,
