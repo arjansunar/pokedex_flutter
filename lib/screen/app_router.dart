@@ -11,7 +11,7 @@ class AppRouter extends StatefulWidget {
 
 class _AppRouterState extends State<AppRouter> {
   int _currentScreen = 0;
-  static const  List<Widget> _screens = [HomeScreen(), FavouriteScreen()];
+  static   List<Widget> _screens = [HomeScreen(), FavouriteScreen()];
   void _updateScreen(int val) {
     setState(() {
       _currentScreen = val;
