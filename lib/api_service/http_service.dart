@@ -1,9 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:http/http.dart';
 import 'package:pokedex/model/pokemon_model.dart';
 
 class HttpService {
   HttpService();
+  final pokeDescUrl =
+      Uri(scheme: 'https', host: 'pokeapi.co', path: '/api/v2/characteristic/');
 
   static List<Pokemon> getPokemon() {
     var json_string = ''' 
@@ -251,8 +255,23 @@ class HttpService {
 
     var pokemon = Pokemon.fromJson(json_data[0]);
 
-    print('pokemon: $pokemon');
-
     return pokemon_list;
+  }
+
+  Future<String> getPokemonDescription(int id) async {
+    Response res =
+        await get(Uri.https('pokeapi.co', '/api/v2/characteristic/$id'));
+
+    if (res.statusCode == 200) {
+      var body = json.decode(res.body);
+      var desc = PokemonCharsDesc.fromJson(body);
+
+      return desc.descriptions
+          .firstWhere((element) => element.language.name == 'en')
+          .description;
+    } else {
+      // show error
+      return 'No description';
+    }
   }
 }

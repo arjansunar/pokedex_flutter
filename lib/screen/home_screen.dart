@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pokedex/api_service/http_service.dart';
 import 'package:pokedex/model/pokemon_model.dart';
+import 'package:pokedex/screen/pokemon_detail_screen.dart';
+import 'package:pokedex/theme/colors.dart';
 
 class HomeScreen extends StatelessWidget {
   final List<Pokemon> _pokemonList = HttpService.getPokemon();
 
-  HomeScreen({Key? key}): super(key: key);
-  
+  HomeScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,19 +75,29 @@ class HomeScreen extends StatelessWidget {
                 crossAxisCount: 2,
                 children: [
                   for (var pokemon in _pokemonList)
-                     Card(
-                      color: pokemon.type.contains('Fire')
-                          ? Colors.red
-                          : pokemon.type.contains('Water')
-                              ? Colors.blue
-                              : pokemon.type.contains('Grass')
-                                  ? Colors.green
-                                  : Colors.grey,
-                      child: Image.network(
-                        height: 20,
-                        pokemon.img,
-                        alignment: Alignment.center,
-                        fit: BoxFit.cover,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) => PokemonDetailScreen(
+                                    pokemon: pokemon,
+                                  )),
+                        );
+                      },
+                      child: Card(
+                        color: pokemon.type.contains('Fire')
+                            ? PokeColors.pokeColors['red']
+                            : pokemon.type.contains('Water')
+                                ? PokeColors.pokeColors['blue']
+                                : pokemon.type.contains('Grass')
+                                    ? PokeColors.pokeColors['green']
+                                    : PokeColors.pokeColors['yellow'],
+                        child: Image.network(
+                          height: 20,
+                          pokemon.img,
+                          alignment: Alignment.center,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     )
                 ],
