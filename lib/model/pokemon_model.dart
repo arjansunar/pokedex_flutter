@@ -11,6 +11,13 @@ class Pokemon {
         name = json['name'],
         img = json['img'],
         type = json['type'].cast<String>();
+
+  Pokemon.notFound()
+      : id = 0,
+        num = '???',
+        name = '???',
+        img = '',
+        type = ['???'];
 }
 
 class PokemonCharsDesc {
