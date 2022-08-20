@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pokedex/api_service/http_service.dart';
+import 'package:pokedex/model/favourite_lists.dart';
 
 import 'package:pokedex/model/pokemon_model.dart';
 import 'package:pokedex/theme/colors.dart';
+import 'package:provider/provider.dart';
 
 class PokemonDetailScreen extends StatefulWidget {
   final Pokemon pokemon;
@@ -17,6 +19,7 @@ class PokemonDetailScreen extends StatefulWidget {
 
 class _PokemonDetailScreenState extends State<PokemonDetailScreen> {
   final HttpService httpService = HttpService();
+  bool _isFavourite = false;
 
   String pokemonDesc = "";
 
@@ -36,6 +39,8 @@ class _PokemonDetailScreenState extends State<PokemonDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _isFavourite = Provider.of<FavouriteLists>(context)
+        .isFavourite(widget.pokemon.id.toString());
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -49,39 +54,50 @@ class _PokemonDetailScreenState extends State<PokemonDetailScreen> {
               height: 15,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 IconButton(
                   onPressed: (() => Navigator.pop(context)),
                   icon: const Icon(Icons.arrow_back),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width * 0.2),
-                  child: Column(
-                    children: [
-                      Text(
-                        widget.pokemon.name,
-                        style: TextStyle(
-                          fontSize: 28,
-                          color: Colors.black87,
-                          fontWeight: FontWeight.values[6],
-                          fontFamily:
-                              GoogleFonts.openSans(fontWeight: FontWeight.bold)
-                                  .fontFamily,
-                        ),
+                Column(
+                  children: [
+                    Text(
+                      widget.pokemon.name,
+                      style: TextStyle(
+                        fontSize: 28,
+                        color: Colors.black87,
+                        fontWeight: FontWeight.values[6],
+                        fontFamily:
+                            GoogleFonts.openSans(fontWeight: FontWeight.bold)
+                                .fontFamily,
                       ),
-                      Text(
-                        widget.pokemon.num,
-                        style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.black54,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
+                    ),
+                    Text(
+                      widget.pokemon.num,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.black54,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
+                IconButton(
+                  icon: const Icon(Icons.favorite),
+                  onPressed: () {
+                    if (_isFavourite) {
+                      context
+                          .read<FavouriteLists>()
+                          .removeFromFavourite(widget.pokemon.id.toString());
+                    } else {
+                      context
+                          .read<FavouriteLists>()
+                          .addToFavourite(widget.pokemon.id.toString());
+                    }
+                  },
+                  color: _isFavourite ? Colors.redAccent : Colors.grey,
+                )
               ],
             ),
             const SizedBox(

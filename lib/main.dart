@@ -3,11 +3,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pokedex/auth/auth_service.dart';
+import 'package:pokedex/model/favourite_lists.dart';
 import 'package:pokedex/screen/app_router.dart';
 import 'package:pokedex/screen/login_screen.dart';
 import 'package:provider/provider.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
@@ -27,12 +28,12 @@ class MyApp extends StatelessWidget {
         StreamProvider(
             create: ((context) => context.read<AuthService>().user),
             initialData: null),
+        ChangeNotifierProvider(create: (context) => FavouriteLists())
       ],
       child: MaterialApp(
         title: 'Pokedex',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            fontFamily: GoogleFonts.roboto().fontFamily),
+        theme: ThemeData(fontFamily: GoogleFonts.roboto().fontFamily),
         home: const AuthRouter(),
       ),
     );

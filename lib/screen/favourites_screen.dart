@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:pokedex/model/favourite_lists.dart';
+import 'package:provider/provider.dart';
 
 class FavouriteScreen extends StatelessWidget {
   const FavouriteScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    FavouriteLists favouriteLists = Provider.of<FavouriteLists>(context);
+
+    if (favouriteLists.favouritePokemonList.isEmpty) {
+      return const Scaffold(body: Center(child: Text('no favourties')));
+    }
+
+    return Scaffold(
       body: Center(
-        child: Text('Favourites'),
+        child: Text(favouriteLists.favouritePokemonList.length.toString()),
       ),
     );
   }

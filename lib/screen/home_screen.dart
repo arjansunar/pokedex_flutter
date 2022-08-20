@@ -31,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
       _pokemonList = res;
       _filteredPokemonList = res;
     });
-    print("init state");
   }
 
   void handleSearchPokemon(String searchName) {
