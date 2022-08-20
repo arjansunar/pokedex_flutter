@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pokedex/api_service/http_service.dart';
 import 'package:pokedex/model/pokemon_model.dart';
 import 'package:pokedex/screen/pokemon_detail_screen.dart';
+import 'package:pokedex/theme/TextStyle.dart';
 import 'package:pokedex/theme/colors.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -56,24 +57,12 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
-            SizedBox(
-              height: MediaQuery.of(context).viewPadding.top,
-            ),
             const SizedBox(
               height: 20,
             ),
             Row(
               children: [
-                Text(
-                  'Pokédex',
-                  style: TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.values[8],
-                      letterSpacing: 4.0,
-                      fontFamily:
-                          GoogleFonts.openSans(fontWeight: FontWeight.bold)
-                              .fontFamily),
-                ),
+                Text('Pokédex', style: ThemeTextStyles.mainTextStyle),
               ],
             ),
             const SizedBox(
@@ -128,13 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               );
                             },
                             child: Card(
-                              color: pokemon.type.contains('Fire')
-                                  ? PokeColors.pokeColors['red']
-                                  : pokemon.type.contains('Water')
-                                      ? PokeColors.pokeColors['blue']
-                                      : pokemon.type.contains('Grass')
-                                          ? PokeColors.pokeColors['green']
-                                          : PokeColors.pokeColors['yellow'],
+                              color: PokeColors.getColor(pokemon),
                               child: Image.network(
                                 pokemon.img,
                                 height: 20,

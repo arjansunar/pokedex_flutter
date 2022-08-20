@@ -51,7 +51,7 @@ class _PokemonDetailScreenState extends State<PokemonDetailScreen> {
               height: MediaQuery.of(context).viewPadding.top,
             ),
             const SizedBox(
-              height: 15,
+              height: 20,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -91,9 +91,8 @@ class _PokemonDetailScreenState extends State<PokemonDetailScreen> {
                           .read<FavouriteLists>()
                           .removeFromFavourite(widget.pokemon.id.toString());
                     } else {
-                      context
-                          .read<FavouriteLists>()
-                          .addToFavourite(widget.pokemon.id.toString());
+                      context.read<FavouriteLists>().addToFavourite(
+                          widget.pokemon.id.toString(), widget.pokemon);
                     }
                   },
                   color: _isFavourite ? Colors.redAccent : Colors.grey,
@@ -106,14 +105,9 @@ class _PokemonDetailScreenState extends State<PokemonDetailScreen> {
             Container(
               padding: const EdgeInsets.symmetric(vertical: 60.0),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: widget.pokemon.type.contains('Fire')
-                      ? PokeColors.pokeColors['red']
-                      : widget.pokemon.type.contains('Water')
-                          ? PokeColors.pokeColors['blue']
-                          : widget.pokemon.type.contains('Grass')
-                              ? PokeColors.pokeColors['green']
-                              : PokeColors.pokeColors['yellow']),
+                borderRadius: BorderRadius.circular(20),
+                color: PokeColors.getColor(widget.pokemon),
+              ),
               child: Center(
                 child: Image.network(
                   height: 260,
