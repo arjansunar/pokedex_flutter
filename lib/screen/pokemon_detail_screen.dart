@@ -37,6 +37,18 @@ class _PokemonDetailScreenState extends State<PokemonDetailScreen> {
     initValues();
   }
 
+  void addOrRemoveFromFavourite() {
+    if (_isFavourite) {
+      context
+          .read<FavouriteLists>()
+          .removeFromFavourite(widget.pokemon.id.toString());
+    } else {
+      context
+          .read<FavouriteLists>()
+          .addToFavourite(widget.pokemon.id.toString(), widget.pokemon);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     _isFavourite = Provider.of<FavouriteLists>(context)
@@ -85,16 +97,7 @@ class _PokemonDetailScreenState extends State<PokemonDetailScreen> {
                 ),
                 IconButton(
                   icon: const Icon(Icons.favorite),
-                  onPressed: () {
-                    if (_isFavourite) {
-                      context
-                          .read<FavouriteLists>()
-                          .removeFromFavourite(widget.pokemon.id.toString());
-                    } else {
-                      context.read<FavouriteLists>().addToFavourite(
-                          widget.pokemon.id.toString(), widget.pokemon);
-                    }
-                  },
+                  onPressed: () => addOrRemoveFromFavourite(),
                   color: _isFavourite ? Colors.redAccent : Colors.grey,
                 )
               ],

@@ -4,7 +4,6 @@ import 'package:sqflite/sqflite.dart';
 
 class FavouriteListDb {
   static final FavouriteListDb instance = FavouriteListDb._init();
-  static const String TABLE_NAME = 'favourite_list';
 
   static Database? _database;
   FavouriteListDb._init();
@@ -26,10 +25,11 @@ class FavouriteListDb {
 
   // db schema
   Future _createDb(Database db, int version) async {
-    const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
+    const idType = 'INTEGER PRIMARY KEY';
     const textType = 'TEXT NOT NULL';
     // const boolType = 'BOOLEAN NOT NULL';
     // const integerType = 'INTEGER NOT NULL';
+    print('create db');
 
     await db.execute('''
   CREATE TABLE $tableFavourites (
@@ -37,14 +37,15 @@ class FavouriteListDb {
     ${FavouritesFieldNames.nickname} $textType,
     ${FavouritesFieldNames.num} $textType,
     ${FavouritesFieldNames.name} $textType,
-    ${FavouritesFieldNames.img} $textType,
-  )
+    ${FavouritesFieldNames.img} $textType
+  );
   ''');
   }
 
   // create
   Future<Favourite> create(Favourite favourite) async {
     final db = await instance.database;
+
     final id = await db.insert(tableFavourites, favourite.toJson());
 
     return favourite.copyWith(id: id);
@@ -61,10 +62,19 @@ class FavouriteListDb {
   }
 
   // update
-  Future<int> updateFavourites(Favourite favourite) async {
+  Future<int> updateFavourites(Favourite favourite, String nickname) async {
     final db = await instance.database;
-    return await db.update(tableFavourites, favourite.toJson(),
-        where: '${FavouritesFieldNames.id} = ?', whereArgs: [favourite.id]);
+    return await db.update(
+        tableFavourites,
+        Favourite(
+                id: favourite.id,
+                nickname: nickname,
+                num: favourite.num,
+                name: favourite.name,
+                img: favourite.img)
+            .toJson(),
+        where: '${FavouritesFieldNames.id} = ?',
+        whereArgs: [favourite.id]);
   }
 
   // delete

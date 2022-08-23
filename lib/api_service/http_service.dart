@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart';
 import 'package:pokedex/model/pokemon_model.dart';
