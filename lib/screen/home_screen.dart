@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pokedex/api_service/http_service.dart';
+import 'package:pokedex/auth/auth_service.dart';
 import 'package:pokedex/model/pokemon_model.dart';
 import 'package:pokedex/screen/pokemon_detail_screen.dart';
 import 'package:pokedex/theme/TextStyle.dart';
@@ -15,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final HttpService httpService = HttpService();
+  final AuthService authService = AuthService(FirebaseAuth.instance);
 
   List<Pokemon> _pokemonList = [];
 
@@ -61,8 +64,15 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 20,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Pokédex', style: ThemeTextStyles.mainTextStyle),
+                IconButton(
+                  onPressed: () {
+                    authService.signOut();
+                  },
+                  icon: const Icon(Icons.logout),
+                )
               ],
             ),
             const SizedBox(
